@@ -1,5 +1,5 @@
-#!/usr/bin/expect -f
-
+#!/usr/bin/expect -f 
+exp_internal 1
 set mode [lindex $argv 0]
 set clip [lindex $argv 1]
 
@@ -22,7 +22,7 @@ puts "using local port $local_port"
 spawn ssh -C -c arcfour,blowfish-cbc -o StrictHostKeyChecking=no -o AddressFamily=inet -t display@display.local /bin/dash
 expect "$ "
 
-exp_send "netstat -4tln\r"
+exp_send -- "netstat -4tln\r"
 expect "*LISTEN*"
 set output $expect_out(buffer)
 
@@ -31,9 +31,11 @@ while { [string match "*$remote_port*" $output ]} {
 }
 
 puts "using remote port $remote_port"
+
+exp_send -- "echo\r"
 expect "$ "
 
-exp_send "~C\r"
+exp_send -- "~C\r"
 expect "ssh> "
 exp_send -- "-L:$local_port:localhost:$remote_port\r"
 expect "$ "
