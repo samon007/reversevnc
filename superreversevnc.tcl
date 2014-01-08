@@ -50,7 +50,9 @@ if { $mode == "screen" } {
   }
   puts [exec x11vnc -coe localhost:$local_port -nolookup -rfbport 0 -noclipboard -nosetclipboard -repeat -timeout 5 -clip $clip -scale 1920x1080] 
 } else {
-  puts [exec x11vnc -coe localhost:$local_port -nolookup -rfbport 0 -noclipboard -nosetclipboard -repeat -timeout 5 -id pick] 
+  set xwininfo [exec xwininfo]
+  set wid [string range $xwininfo 155 163]
+  puts [exec x11vnc -coe localhost:$local_port -nolookup -rfbport 0 -noclipboard -nosetclipboard -repeat -timeout 5 -id $wid] 
 }
 
 exit 0
