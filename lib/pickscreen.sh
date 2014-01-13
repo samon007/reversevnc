@@ -18,12 +18,12 @@ for LINE in $(xrandr | grep -e ".*x.*+.*+.*" | cut -d\  -f3);do
 	MIN_HEIGHT=$(echo ${LINE} | cut -d\+ -f3)
 	MAX_HEIGHT=$(( $(echo ${LINE} | cut -d\+ -f1 | cut -d\x -f2) + ${MIN_HEIGHT}))
    
-	#echo WIDTH RANGE: $MIN_WIDTH - $MAX_WIDTH
-	#echo HEIGHT RANGE: $MIN_HEIGHT - $MAX_HEIGHT
+	#echo WIDTH RANGE:  ${MIN_WIDTH}  - ${MAX_WIDTH}
+	#echo HEIGHT RANGE: ${MIN_HEIGHT} - ${MAX_HEIGHT}
  
-	if (($CLICK_WIDTH<=$MAX_WIDTH && $CLICK_WIDTH>=$MIN_WIDTH))
+	if ((${CLICK_WIDTH}<=${MAX_WIDTH} && ${CLICK_WIDTH}>= ${MIN_WIDTH}))
 	then
-		if (($CLICK_HEIGHT<=$MAX_HEIGHT && $CLICK_HEIGHT>=$MIN_HEIGHT))
+		if ((${CLICK_HEIGHT}<=${MAX_HEIGHT} && ${CLICK_HEIGHT}>=${MIN_HEIGHT}))
 			then
 				echo ${LINE}
 			fi    
