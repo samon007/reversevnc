@@ -21,10 +21,6 @@ puts "using local port $local_port"
 
 spawn ssh -C -c arcfour,blowfish-cbc -o StrictHostKeyChecking=no -o AddressFamily=inet -t display@display.local /bin/dash
 
-exp_send -- "xwininfo -display :0 -root | grep geometry | cut -d \\  -f4 | cut -d + -f1 \r"
-expect "*"
-set resolution $expect_out(buffer)
-
 expect "$ "
 exp_send -- "netstat -4tln\r"
 expect "*LISTEN*"
@@ -52,7 +48,7 @@ if { $mode == "screen" } {
     puts "no clip specified, using default '1920x1200+1920+0'\n"
     set clip "1920x1200+1920+0"
   }
-  puts [exec x11vnc -coe localhost:$local_port -nolookup -rfbport 0 -noclipboard -nosetclipboard -repeat -timeout 5 -clip $clip -scale $resolution] 
+  puts [exec x11vnc -coe localhost:$local_port -nolookup -rfbport 0 -noclipboard -nosetclipboard -repeat -timeout 5 -clip $clip -scale 1920x1080] 
 } else {
   set wid [exec xdotool selectwindow 2> /dev/null]
   puts [exec x11vnc -coe localhost:$local_port -nolookup -rfbport 0 -noclipboard -nosetclipboard -repeat -timeout 5 -id $wid] 
