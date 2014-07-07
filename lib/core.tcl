@@ -40,16 +40,19 @@ expect "ssh> "
 exp_send -- "-L:$local_port:localhost:$remote_port\r"
 expect "$ "
 
-exp_send "DISPLAY=:0 vncviewer -listen $remote_port -FullScreen=1 \r"
-expect "port $remote_port"
+
 
 if { $mode == "screen" } {
   if {  $clip == "" }  {
     puts "no clip specified, using default '1920x1200+1920+0'\n"
     set clip "1920x1200+1920+0"
   }
+  exp_send "DISPLAY=:0 vncviewer -listen $remote_port -Fullscreen=1 \r"
+  expect "port $remote_port"
   puts [exec x11vnc -coe localhost:$local_port -nolookup -rfbport 0 -noclipboard -nosetclipboard -repeat -timeout 5 -clip $clip -scale 1920x1080] 
 } else {
+  exp_send "DISPLAY=:0 vncviewer -listen $remote_port \r"
+  expect "port $remote_port"
   set wid [exec xdotool selectwindow 2> /dev/null]
   puts [exec x11vnc -coe localhost:$local_port -nolookup -rfbport 0 -noclipboard -nosetclipboard -repeat -timeout 5 -id $wid] 
 }
