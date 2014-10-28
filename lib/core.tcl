@@ -19,7 +19,7 @@ while { ![catch {exec /bin/netstat -4tnl | grep $local_port}] } {
 }
 puts "using local port $local_port"
 
-spawn ssh -C -c arcfour,blowfish-cbc -o StrictHostKeyChecking=no -o AddressFamily=inet -t display@display.local /bin/dash
+spawn ssh -C -c arcfour,blowfish-cbc,aes128-ctr -o StrictHostKeyChecking=no -o AddressFamily=inet -t display@display.local /bin/dash
 
 expect "$ "
 exp_send -- "netstat -4tln\r"
